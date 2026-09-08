@@ -55,19 +55,24 @@ function isTodayInVietnam(ts) {
     return dateStr === todayStr;
 }
 
-// Lấy bản ghi chấm công của hôm nay từ Lark Base
-async function getTodayRecord(userId, token, branch = 'vt1') {
-    const config = APPS[branch] || APPS['vt1'];
+// Lấy bản ghi chấm công của hôm nay từ Lark Base (LUÔN DÙNG BASE VT1 VÀ TÌM BẰNG TEXT)
+async function getTodayRecord(userName, branch, vt1Token) {
+    const config = APPS['vt1']; // Ép cứng dùng Base của VT1
+    const companyName = (branch === 'vt2') ? 'Vạn Thành 2' : 'Vạn Thành 1';
+    
     const searchRes = await fetch(`https://open.larksuite.com/open-apis/bitable/v1/apps/${config.BASE_TOKEN}/tables/${config.TABLE_ID}/records/search?user_id_type=open_id`, {
         method: 'POST',
         headers: { 
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${vt1Token}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             filter: {
                 conjunction: 'and',
-                conditions: [{ field_name: 'Nhân viên', operator: 'contains', value: [userId] }]
+                conditions: [
+                    { field_name: 'Nhân viên', operator: 'is', value: [userName] },
+                    { field_name: 'Trực thuộc', operator: 'is', value: [companyName] }
+                ]
             },
             sort: [{ field_name: 'Ngày chấm công', desc: true }]
         })
@@ -106,10 +111,11 @@ app.post('/api/login', async (req, res) => {
         }
 
         const userId = userData.data.open_id || userData.data.user_id;
+        const userName = userData.data.name;
         
-        // Truy vấn Base để kiểm tra xem hôm nay người này đã chấm công những ô nào
-        const tenantToken = await getTenantAccessToken(branch);
-        const todayRecord = await getTodayRecord(userId, tenantToken, branch);
+        // LUÔN ÉP DÙNG TOKEN CỦA VT1 ĐỂ GHI VÀO BASE VT1
+        const vt1Token = await getTenantAccessToken('vt1');
+        const todayRecord = await getTodayRecord(userName, branch, vt1Token);
         
         let attendanceState = {};
         if (todayRecord) {
@@ -157,7 +163,8 @@ app.post('/api/checkin', async (req, res) => {
 
         if (!userId) return res.status(400).json({ success: false, message: "Chưa định danh nhân viên." });
 
-        const token = await getTenantAccessToken(branch);
+        // LUÔN LẤY TOKEN CỦA VT1 ĐỂ GHI VÀO BASE VT1
+        const vt1Token = await getTenantAccessToken('vt1');
         const now = new Date().getTime(); 
 
         const fieldMap = {
@@ -168,12 +175,13 @@ app.post('/api/checkin', async (req, res) => {
         };
         const columnName = fieldMap[actionType];
 
-        const config = APPS[branch] || APPS['vt1'];
+        const configVT1 = APPS['vt1']; // Ép cứng Base VT1
         // Tìm xem hôm nay đã có dòng dữ liệu nào chưa
-        const todayRecord = await getTodayRecord(userId, token, branch);
+        const todayRecord = await getTodayRecord(userName, branch, vt1Token);
 
         let larkRes, larkData;
         let cName = (branch === 'vt2') ? 'VT2' : 'VT1';
+        let fullNameWithBranch = userName + (branch === 'vt2' ? ' (VT2)' : ''); // Thêm chữ VT2 vào tên
 
         if (todayRecord) {
             // ĐÃ CÓ DỮ LIỆU HÔM NAY -> CHỈ CẦN UPDATE (CẬP NHẬT) CỘT TƯƠNG ỨNG
@@ -184,16 +192,18 @@ app.post('/api/checkin', async (req, res) => {
                 }
             };
 
-            larkRes = await fetch(`https://open.larksuite.com/open-apis/bitable/v1/apps/${config.BASE_TOKEN}/tables/${config.TABLE_ID}/records/${todayRecord.record_id}?user_id_type=open_id`, {
+            larkRes = await fetch(`https://open.larksuite.com/open-apis/bitable/v1/apps/${configVT1.BASE_TOKEN}/tables/${configVT1.TABLE_ID}/records/${todayRecord.record_id}?user_id_type=open_id`, {
                 method: 'PUT',
-                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                headers: { 'Authorization': `Bearer ${vt1Token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify(updateData)
             });
         } else {
             // CHƯA CÓ DỮ LIỆU -> TẠO DÒNG MỚI (CREATE)
+            let companyName = (branch === 'vt2') ? 'Vạn Thành 2' : 'Vạn Thành 1';
             const recordData = {
                 fields: {
-                    "Nhân viên": [{ "id": userId }],
+                    "Nhân viên": userName, 
+                    "Trực thuộc": companyName,
                     "Ngày chấm công": now,
                     [columnName]: now,
                     "IP Mạng": userIp,
@@ -201,9 +211,9 @@ app.post('/api/checkin', async (req, res) => {
                 }
             };
 
-            larkRes = await fetch(`https://open.larksuite.com/open-apis/bitable/v1/apps/${config.BASE_TOKEN}/tables/${config.TABLE_ID}/records?user_id_type=open_id`, {
+            larkRes = await fetch(`https://open.larksuite.com/open-apis/bitable/v1/apps/${configVT1.BASE_TOKEN}/tables/${configVT1.TABLE_ID}/records?user_id_type=open_id`, {
                 method: 'POST',
-                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                headers: { 'Authorization': `Bearer ${vt1Token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify(recordData)
             });
         }

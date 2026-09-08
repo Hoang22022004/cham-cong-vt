@@ -242,10 +242,32 @@
                     </button>
                 </div>
             </div>
+    </div>
+    </div>
+
+    <!-- MODAL THÀNH CÔNG -->
+    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none modal-overlay bg-slate-900/40">
+        <div class="modal-content bg-white w-[90%] max-w-sm rounded-[2rem] p-6 shadow-2xl relative overflow-hidden flex flex-col items-center text-center">
+            <!-- Hi?u ?ng n?n -->
+            <div class="absolute -top-10 -left-10 w-32 h-32 bg-green-50 rounded-full mix-blend-multiply opacity-60"></div>
+            
+            <div class="relative z-10 w-full flex flex-col items-center">
+                <!-- Icon Tick -->
+                <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center text-4xl mb-4 shadow-inner">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                
+                <h3 class="font-heading font-black text-2xl text-gray-800 mb-2">Tuy?t v?i!</h3>
+                <p class="text-gray-500 text-[15px] mb-6 leading-relaxed" id="successMessage">Ðã ghi nh?n thành công.</p>
+                
+                <button onclick="closeSuccessModal()" class="w-full py-3.5 px-4 rounded-xl font-bold text-white bg-green-500 hover:bg-green-600 shadow-lg shadow-green-500/30 transition-all active:scale-95 text-[15px]">
+                    Hoàn t?t
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- ThÃªm thÆ° viá»‡n Lark SDK -->
+    <!-- Thêm thu vi?n Lark SDK -->
     <script type="text/javascript" src="https://lf1-cdn-tos.bytegoofy.com/goofy/lark/op/h5-js-sdk-1.5.23.js"></script>
 
     <!-- JS Logic -->
@@ -350,6 +372,20 @@
         }
 
         // HÃ m Ä‘Ã³ng popup
+                // Logic Modal Thành Công
+        function showSuccessModal(actionName, timeStr) {
+            document.getElementById('successMessage').innerHTML = "H? th?ng dã luu l?i gi? <b>" + actionName + "" + "</b><br>vào lúc <b class='text-green-600 text-lg'>" + timeStr + "" + "</b>.";
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('modal-active');
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('modal-active');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
         function closeModal() {
             const modal = document.getElementById('confirmModal');
             modal.classList.remove('modal-active');
@@ -388,9 +424,10 @@
 
                 const result = await response.json();
 
-                if (result.success) {
-                    // Äá»•i giao diá»‡n nÃºt thÃ nh "ÄÃ£ cháº¥m"
+                                if (result.success) {
                     disableButton(buttonElement, timeNow);
+                    closeModal();
+                    setTimeout(() => showSuccessModal(actionName, timeNow), 150);
                 } else {
                     alert(result.message || "CÃ³ lá»—i xáº£y ra khi cháº¥m cÃ´ng.");
                 }
@@ -423,4 +460,5 @@
     </script>
 </body>
 </html>
+
 

@@ -142,6 +142,9 @@ app.post('/api/checkin', async (req, res) => {
         const { actionType, actionName, userId, userName, branch } = req.body;
         
         let userIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        if (userIp && userIp.includes(',')) {
+            userIp = userIp.split(',')[0].trim();
+        }
         if (userIp.substr(0, 7) == "::ffff:") userIp = userIp.substr(7);
 
         // Kiểm tra IP

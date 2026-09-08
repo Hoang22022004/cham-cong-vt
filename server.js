@@ -5,33 +5,36 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(__dirname));
 
 const COMPANY_IPS = ['118.69.234.214']; 
 
 // --- Cấu hình Lark API ---
-const APP_ID = 'cli_aaad6f9e06a29ed2';
-const APP_SECRET = '7r72kPZ7Dilw1aelU2lzBb1PxrwPTyoz';
+const APPS = {
+    vt1: { APP_ID: 'cli_aaad6f9e06a29ed2', APP_SECRET: '7r72kPZ7Dilw1aelU2lzBb1PxrwPTyoz' },
+    vt2: { APP_ID: 'cli_aa15c91481f8ded3', APP_SECRET: 'mMcAbt5qYRnFYTn7ikzqufxKjptAOQYk' }
+};
 const BASE_TOKEN = 'BubDbp3p7a5IwAsTURZlMsLGgTg';
 const TABLE_ID = 'tblmYtoNX1lMQLZH';
 
 // Hàm lấy Tenant Access Token
-async function getTenantAccessToken() {
+async function getTenantAccessToken(branch = 'vt1') {
+    const config = APPS[branch] || APPS['vt1'];
     const res = await fetch('https://open.larksuite.com/open-apis/auth/v3/tenant_access_token/internal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ app_id: APP_ID, app_secret: APP_SECRET })
+        body: JSON.stringify({ app_id: config.APP_ID, app_secret: config.APP_SECRET })
     });
     const data = await res.json();
     return data.tenant_access_token;
 }
 
 // Hàm lấy App Access Token
-async function getAppAccessToken() {
+async function getAppAccessToken(branch = 'vt1') {
+    const config = APPS[branch] || APPS['vt1'];
     const res = await fetch('https://open.larksuite.com/open-apis/auth/v3/app_access_token/internal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ app_id: APP_ID, app_secret: APP_SECRET })
+        body: JSON.stringify({ app_id: config.APP_ID, app_secret: config.APP_SECRET })
     });
     const data = await res.json();
     return data.app_access_token;
@@ -76,10 +79,10 @@ async function getTodayRecord(userId, token) {
 // --- API: Lấy thông tin User và Trạng thái Chấm công ---
 app.post('/api/login', async (req, res) => {
     try {
-        const { code } = req.body;
+        const { code, branch } = req.body;
         if (!code) return res.status(400).json({ success: false, message: "Thiếu auth code" });
 
-        const appAccessToken = await getAppAccessToken();
+        const appAccessToken = await getAppAccessToken(branch);
         
         const userRes = await fetch('https://open.larksuite.com/open-apis/authen/v1/access_token', {
             method: 'POST',
@@ -99,7 +102,7 @@ app.post('/api/login', async (req, res) => {
         const userId = userData.data.open_id || userData.data.user_id;
         
         // Truy vấn Base để kiểm tra xem hôm nay người này đã chấm công những ô nào
-        const tenantToken = await getTenantAccessToken();
+        const tenantToken = await getTenantAccessToken(branch);
         const todayRecord = await getTodayRecord(userId, tenantToken);
         
         let attendanceState = {};
@@ -130,7 +133,7 @@ app.post('/api/login', async (req, res) => {
 // --- API: Xử lý Yêu cầu Chấm Công ---
 app.post('/api/checkin', async (req, res) => {
     try {
-        const { actionType, actionName, userId, userName } = req.body;
+        const { actionType, actionName, userId, userName, branch } = req.body;
         
         let userIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
         if (userIp.substr(0, 7) == "::ffff:") userIp = userIp.substr(7);
@@ -145,7 +148,7 @@ app.post('/api/checkin', async (req, res) => {
 
         if (!userId) return res.status(400).json({ success: false, message: "Chưa định danh nhân viên." });
 
-        const token = await getTenantAccessToken();
+        const token = await getTenantAccessToken(branch);
         const now = new Date().getTime(); 
 
         const fieldMap = {
@@ -160,13 +163,14 @@ app.post('/api/checkin', async (req, res) => {
         const todayRecord = await getTodayRecord(userId, token);
 
         let larkRes, larkData;
+        let cName = (branch === 'vt2') ? 'VT2' : 'VT1';
 
         if (todayRecord) {
             // ĐÃ CÓ DỮ LIỆU HÔM NAY -> CHỈ CẦN UPDATE (CẬP NHẬT) CỘT TƯƠNG ỨNG
             const updateData = {
                 fields: {
                     [columnName]: now,
-                    "Ghi chú": todayRecord.fields['Ghi chú'] ? todayRecord.fields['Ghi chú'] + `\nĐã gửi ${actionName}` : `Đã gửi ${actionName}`
+                    "Ghi chú": todayRecord.fields['Ghi chú'] ? todayRecord.fields['Ghi chú'] + `\nĐã gửi ${actionName} (${cName})` : `Đã gửi ${actionName} (${cName})`
                 }
             };
 
@@ -183,7 +187,7 @@ app.post('/api/checkin', async (req, res) => {
                     "Ngày chấm công": now,
                     [columnName]: now,
                     "IP Mạng": userIp,
-                    "Ghi chú": `Đã gửi ${actionName} qua Web App`
+                    "Ghi chú": `Đã gửi ${actionName} qua Web App (${cName})`
                 }
             };
 

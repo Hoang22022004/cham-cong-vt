@@ -276,12 +276,12 @@
             setTimeout(() => {
                 if (typeof tt !== 'undefined') {
                     tt.requestAuthCode({
-                        appId: 'cli_aaad6f9e06a29ed2',
+                        appId: (new URLSearchParams(window.location.search).get('branch') === 'vt2' ? 'cli_aa15c91481f8ded3' : 'cli_aaad6f9e06a29ed2'),
                         success(res) {
                             fetch('/api/login', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ code: res.code })
+                                body: JSON.stringify({ code: res.code, branch: new URLSearchParams(window.location.search).get('branch') || 'vt1' })
                             })
                             .then(r => r.json())
                             .then(data => {
@@ -382,7 +382,7 @@
                         actionType, 
                         actionName,
                         userId: currentUser.id,
-                        userName: currentUser.name
+                        userName: currentUser.name, branch: new URLSearchParams(window.location.search).get('branch') || 'vt1'
                     })
                 });
 
@@ -423,3 +423,4 @@
     </script>
 </body>
 </html>
+

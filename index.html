@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Chấm Công Vạn Thành</title>
-    <!-- Thêm font chữ từ Google Fonts -->
+    <title>Há»‡ Thá»‘ng Cháº¥m CÃ´ng Váº¡n ThÃ nh</title>
+    <!-- ThÃªm font chá»¯ tá»« Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
             box-shadow: 0 25px 50px -12px rgba(13, 71, 161, 0.15);
         }
 
-        /* Đồng hồ vừa vặn */
+        /* Äá»“ng há»“ vá»«a váº·n */
         .time-display-block {
             background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);
             position: relative;
@@ -97,7 +97,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Hiệu ứng mờ nền logo */
+        /* Hiá»‡u á»©ng má» ná»n logo */
         .blend-logo {
             mix-blend-mode: multiply;
         }
@@ -126,93 +126,93 @@
         <div class="h-1.5 w-full bg-gradient-to-r from-brand-blue via-brand-accent to-blue-300"></div>
 
         <div class="p-5 sm:p-6 pb-4">
-            <!-- Khu vực Logo & Tiêu đề -->
+            <!-- Khu vá»±c Logo & TiÃªu Ä‘á» -->
             <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-3 mb-4 border-b border-gray-100 pb-4 bg-gradient-to-r from-blue-100/70 to-white p-3 rounded-xl relative overflow-hidden">
-                <!-- Họa tiết trang trí góc -->
+                <!-- Há»a tiáº¿t trang trÃ­ gÃ³c -->
                 <div class="absolute -top-4 -right-4 w-12 h-12 bg-blue-100 rounded-full mix-blend-multiply opacity-50 blur-xl"></div>
                 
-                <img src="logo.png" alt="Logo Vạn Thành" class="h-14 sm:h-16 object-contain blend-logo relative z-10">
+                <img src="logo.png" alt="Logo Váº¡n ThÃ nh" class="h-14 sm:h-16 object-contain blend-logo relative z-10">
                 
                 <div class="text-center sm:text-left relative z-10">
-                    <div class="inline-block bg-blue-100 text-brand-blue text-[9px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-widest mb-1">Phiên bản nội bộ</div>
+                    <div class="inline-block bg-blue-100 text-brand-blue text-[9px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-widest mb-1">PhiÃªn báº£n ná»™i bá»™</div>
                     <h1 class="font-heading font-black text-lg sm:text-xl tracking-tight title-gradient uppercase leading-tight">
-                        Cổng Thông Tin <br class="hidden sm:block"> Nhân Sự
+                        Cá»•ng ThÃ´ng Tin <br class="hidden sm:block"> NhÃ¢n Sá»±
                     </h1>
                 </div>
             </div>
 
-            <!-- Lời Chào & Lời Chúc -->
+            <!-- Lá»i ChÃ o & Lá»i ChÃºc -->
             <div class="text-center mb-4">
-                <p class="text-gray-500 font-medium text-xs mb-0.5">Xin chào,</p>
-                <h2 class="font-heading font-bold text-xl text-brand-dark mb-1.5" id="userName">Đang tải...</h2>
+                <p class="text-gray-500 font-medium text-xs mb-0.5">Xin chÃ o,</p>
+                <h2 class="font-heading font-bold text-xl text-brand-dark mb-1.5" id="userName">Äang táº£i...</h2>
                 <p class="text-xs text-brand-accent font-medium bg-blue-50/50 py-1 px-3 rounded-full inline-block border border-blue-100">
-                    🌟 Chúc bạn một ngày làm việc tràn đầy năng lượng!
+                    ðŸŒŸ ChÃºc báº¡n má»™t ngÃ y lÃ m viá»‡c trÃ n Ä‘áº§y nÄƒng lÆ°á»£ng!
                 </p>
             </div>
 
-            <!-- ĐỒNG HỒ VỪA VẶN -->
+            <!-- Äá»’NG Há»’ Vá»ªA Váº¶N -->
             <div class="time-display-block rounded-[1rem] py-3.5 px-5 flex items-center justify-between mb-5 relative">
-                <!-- Ngày tháng bên trái -->
+                <!-- NgÃ y thÃ¡ng bÃªn trÃ¡i -->
                 <div class="text-left">
-                    <div class="text-blue-200 font-medium text-[10px] mb-0.5 uppercase tracking-widest">Hôm nay</div>
+                    <div class="text-blue-200 font-medium text-[10px] mb-0.5 uppercase tracking-widest">HÃ´m nay</div>
                     <div class="text-white font-bold text-xs tracking-wide" id="currentDate">--/--/----</div>
                 </div>
                 
-                <!-- Giờ phút bên phải -->
+                <!-- Giá» phÃºt bÃªn pháº£i -->
                 <div class="font-sans font-semibold text-white text-4xl tracking-normal drop-shadow-md flex items-baseline">
                     <span id="currentHourMin">00:00</span>
                     <span class="text-lg text-blue-200 font-medium ml-1.5" id="currentSeconds">00</span>
                 </div>
             </div>
 
-            <!-- Lưới Nút Bấm -->
+            <!-- LÆ°á»›i NÃºt Báº¥m -->
             <div class="grid grid-cols-2 gap-3 mb-5">
-                <!-- Nút Vào Sáng -->
-                <button id="btn_in_morning" onclick="requestCheck('in_morning', 'VÀO SÁNG', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-teal-500 group">
+                <!-- NÃºt VÃ o SÃ¡ng -->
+                <button id="btn_in_morning" onclick="requestCheck('in_morning', 'VÃ€O SÃNG', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-teal-500 group">
                     <div class="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center icon-wrapper transition-colors group-hover:bg-teal-100">
                         <i class="fa-solid fa-mug-hot text-lg text-teal-600"></i>
                     </div>
-                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-teal-700 mt-1">VÀO SÁNG</span>
-                    <span class="text-[11px] font-medium text-gray-400 status-text">Chưa ghi nhận</span>
+                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-teal-700 mt-1">VÃ€O SÃNG</span>
+                    <span class="text-[11px] font-medium text-gray-400 status-text">ChÆ°a ghi nháº­n</span>
                 </button>
                 
-                <!-- Nút Ra Sáng -->
-                <button id="btn_out_morning" onclick="requestCheck('out_morning', 'RA NGHỈ TRƯA', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-amber-500 group">
+                <!-- NÃºt Ra SÃ¡ng -->
+                <button id="btn_out_morning" onclick="requestCheck('out_morning', 'RA NGHá»ˆ TRÆ¯A', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-amber-500 group">
                     <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center icon-wrapper transition-colors group-hover:bg-amber-100">
                         <i class="fa-solid fa-utensils text-lg text-amber-600"></i>
                     </div>
-                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-amber-700 mt-1">RA NGHỈ TRƯA</span>
-                    <span class="text-[11px] font-medium text-gray-400 status-text">Chưa ghi nhận</span>
+                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-amber-700 mt-1">RA NGHá»ˆ TRÆ¯A</span>
+                    <span class="text-[11px] font-medium text-gray-400 status-text">ChÆ°a ghi nháº­n</span>
                 </button>
                 
-                <!-- Nút Vào Chiều -->
-                <button id="btn_in_afternoon" onclick="requestCheck('in_afternoon', 'VÀO CHIỀU', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-blue-500 group">
+                <!-- NÃºt VÃ o Chiá»u -->
+                <button id="btn_in_afternoon" onclick="requestCheck('in_afternoon', 'VÃ€O CHIá»€U', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-blue-500 group">
                     <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center icon-wrapper transition-colors group-hover:bg-blue-100">
                         <i class="fa-solid fa-sun text-lg text-blue-600"></i>
                     </div>
-                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-blue-700 mt-1">VÀO CHIỀU</span>
-                    <span class="text-[11px] font-medium text-gray-400 status-text">Chưa ghi nhận</span>
+                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-blue-700 mt-1">VÃ€O CHIá»€U</span>
+                    <span class="text-[11px] font-medium text-gray-400 status-text">ChÆ°a ghi nháº­n</span>
                 </button>
                 
-                <!-- Nút Ra Chiều -->
-                <button id="btn_out_afternoon" onclick="requestCheck('out_afternoon', 'RA VỀ', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-rose-500 group">
+                <!-- NÃºt Ra Chiá»u -->
+                <button id="btn_out_afternoon" onclick="requestCheck('out_afternoon', 'RA Vá»€', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-rose-500 group">
                     <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center icon-wrapper transition-colors group-hover:bg-rose-100">
                         <i class="fa-solid fa-house-chimney-window text-lg text-rose-600"></i>
                     </div>
-                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-rose-700 mt-1">RA VỀ</span>
-                    <span class="text-[11px] font-medium text-gray-400 status-text">Chưa ghi nhận</span>
+                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-rose-700 mt-1">RA Vá»€</span>
+                    <span class="text-[11px] font-medium text-gray-400 status-text">ChÆ°a ghi nháº­n</span>
                 </button>
             </div>
 
-            <!-- Cảnh Báo Wifi -->
+            <!-- Cáº£nh BÃ¡o Wifi -->
             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 flex items-start gap-2 shadow-sm">
                 <div class="text-yellow-600 mt-0.5">
                     <i class="fa-solid fa-lightbulb text-base animate-pulse"></i>
                 </div>
                 <div>
-                    <h4 class="text-[13px] font-bold text-yellow-800 mb-0.5">Quy định hệ thống</h4>
+                    <h4 class="text-[13px] font-bold text-yellow-800 mb-0.5">Quy Ä‘á»‹nh há»‡ thá»‘ng</h4>
                     <p class="text-[11px] text-yellow-700 leading-snug font-medium">
-                        Vui lòng đảm bảo bạn đang sử dụng <b>WIFI của công ty</b>. Hệ thống tự động đối chiếu IP theo thời gian máy chủ.
+                        Vui lÃ²ng Ä‘áº£m báº£o báº¡n Ä‘ang sá»­ dá»¥ng <b>WIFI cá»§a cÃ´ng ty</b>. Há»‡ thá»‘ng tá»± Ä‘á»™ng Ä‘á»‘i chiáº¿u IP theo thá»i gian mÃ¡y chá»§.
                     </p>
                 </div>
             </div>
@@ -220,35 +220,35 @@
         </div>
     </div>
 
-    <!-- MODAL XÁC NHẬN ĐẸP MẮT -->
+    <!-- MODAL XÃC NHáº¬N Äáº¸P Máº®T -->
     <div id="confirmModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none modal-overlay bg-slate-900/40">
         <div class="modal-content bg-white w-[90%] max-w-sm rounded-[2rem] p-6 shadow-2xl relative overflow-hidden">
-            <!-- Icon trang trí -->
+            <!-- Icon trang trÃ­ -->
             <div class="absolute -top-6 -right-6 w-24 h-24 bg-blue-50 rounded-full mix-blend-multiply opacity-50"></div>
             
             <div class="flex flex-col items-center text-center mt-2 relative z-10">
                 <div class="w-16 h-16 bg-blue-100 text-brand-blue rounded-full flex items-center justify-center text-3xl mb-4 shadow-inner">
                     <i class="fa-solid fa-fingerprint"></i>
                 </div>
-                <h3 class="font-heading font-bold text-xl text-gray-800 mb-1">Xác nhận thao tác</h3>
-                <p class="text-gray-500 text-sm mb-6" id="modalMessage">Bạn đang ghi nhận "VÀO SÁNG" lúc 00:00</p>
+                <h3 class="font-heading font-bold text-xl text-gray-800 mb-1">XÃ¡c nháº­n thao tÃ¡c</h3>
+                <p class="text-gray-500 text-sm mb-6" id="modalMessage">Báº¡n Ä‘ang ghi nháº­n "VÃ€O SÃNG" lÃºc 00:00</p>
                 
                 <div class="flex gap-3 w-full">
                     <button onclick="closeModal()" class="flex-1 py-3 px-4 rounded-xl font-bold text-gray-500 bg-gray-100 hover:bg-gray-200 transition-colors">
-                        Hủy Bỏ
+                        Há»§y Bá»
                     </button>
                     <button id="btnConfirm" class="flex-1 py-3 px-4 rounded-xl font-bold text-white bg-brand-blue hover:bg-brand-dark shadow-lg shadow-blue-500/30 transition-all active:scale-95">
-                        Đồng Ý
+                        Äá»“ng Ã
                     </button>
                 </div>
             </div>
     </div>
     </div>
 
-    <!-- MODAL TH�NH C�NG -->
+        <!-- MODAL THÀNH CÔNG -->
     <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none modal-overlay bg-slate-900/40">
         <div class="modal-content bg-white w-[90%] max-w-sm rounded-[2rem] p-6 shadow-2xl relative overflow-hidden flex flex-col items-center text-center">
-            <!-- Hi?u ?ng n?n -->
+            <!-- Hiệu ứng nền -->
             <div class="absolute -top-10 -left-10 w-32 h-32 bg-green-50 rounded-full mix-blend-multiply opacity-60"></div>
             
             <div class="relative z-10 w-full flex flex-col items-center">
@@ -257,17 +257,17 @@
                     <i class="fa-solid fa-check"></i>
                 </div>
                 
-                <h3 class="font-heading font-black text-2xl text-gray-800 mb-2">Tuy?t v?i!</h3>
-                <p class="text-gray-500 text-[15px] mb-6 leading-relaxed" id="successMessage">�� ghi nh?n th�nh c�ng.</p>
+                <h3 class="font-heading font-black text-2xl text-gray-800 mb-2">Tuyệt vời!</h3>
+                <p class="text-gray-500 text-[15px] mb-6 leading-relaxed" id="successMessage">Đã ghi nhận thành công.</p>
                 
                 <button onclick="closeSuccessModal()" class="w-full py-3.5 px-4 rounded-xl font-bold text-white bg-green-500 hover:bg-green-600 shadow-lg shadow-green-500/30 transition-all active:scale-95 text-[15px]">
-                    Ho�n t?t
+                    Hoàn tất
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Th�m thu vi?n Lark SDK -->
+    <!-- Thêm thư viện Lark SDK -->
     <script type="text/javascript" src="https://lf1-cdn-tos.bytegoofy.com/goofy/lark/op/h5-js-sdk-1.5.23.js"></script>
 
     <!-- JS Logic -->
@@ -287,13 +287,13 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // Biến lưu thông tin user thật
+        // Biáº¿n lÆ°u thÃ´ng tin user tháº­t
         let currentUser = {
             id: null,
-            name: 'Đang tải danh tính...'
+            name: 'Äang táº£i danh tÃ­nh...'
         };
 
-        // Hàm Đăng nhập ngầm qua Lark
+        // HÃ m ÄÄƒng nháº­p ngáº§m qua Lark
         function loginViaLark() {
             setTimeout(() => {
                 if (typeof tt !== 'undefined') {
@@ -312,7 +312,7 @@
                                     currentUser.name = data.user.name;
                                     document.getElementById('userName').textContent = currentUser.name;
 
-                                    // Khôi phục trạng thái nút bấm từ Database (Lark Base)
+                                    // KhÃ´i phá»¥c tráº¡ng thÃ¡i nÃºt báº¥m tá»« Database (Lark Base)
                                     if (data.attendanceState) {
                                         const states = data.attendanceState;
                                         if (states.in_morning) disableButton(document.getElementById('btn_in_morning'), states.in_morning);
@@ -321,38 +321,38 @@
                                         if (states.out_afternoon) disableButton(document.getElementById('btn_out_afternoon'), states.out_afternoon);
                                     }
                                 } else {
-                                    document.getElementById('userName').textContent = "Lỗi đăng nhập";
+                                    document.getElementById('userName').textContent = "Lá»—i Ä‘Äƒng nháº­p";
                                     console.error(data);
                                 }
                             })
                             .catch((err) => {
-                                document.getElementById('userName').textContent = "Lỗi kết nối máy chủ";
+                                document.getElementById('userName').textContent = "Lá»—i káº¿t ná»‘i mÃ¡y chá»§";
                                 console.error(err);
                             });
                         },
                         fail(err) {
-                            console.error("Lỗi lấy AuthCode:", err);
+                            console.error("Lá»—i láº¥y AuthCode:", err);
                             const errStr = typeof err === 'object' ? JSON.stringify(err) : String(err);
-                            document.getElementById('userName').textContent = "Lỗi: " + errStr;
+                            document.getElementById('userName').textContent = "Lá»—i: " + errStr;
                             document.getElementById('userName').style.fontSize = "12px";
                             document.getElementById('userName').style.color = "red";
                         }
                     });
                 } else {
-                    document.getElementById('userName').textContent = "Không tìm thấy thư viện Lark";
+                    document.getElementById('userName').textContent = "KhÃ´ng tÃ¬m tháº¥y thÆ° viá»‡n Lark";
                 }
-            }, 500); // Đợi 0.5s để thư viện Lark kịp tải xong
+            }, 500); // Äá»£i 0.5s Ä‘á»ƒ thÆ° viá»‡n Lark ká»‹p táº£i xong
         }
         
-        // Gọi hàm khi tải trang
+        // Gá»i hÃ m khi táº£i trang
         loginViaLark();
 
-        // Biến lưu trạng thái hành động đang chờ xác nhận
+        // Biáº¿n lÆ°u tráº¡ng thÃ¡i hÃ nh Ä‘á»™ng Ä‘ang chá» xÃ¡c nháº­n
         let pendingAction = null;
         let pendingButton = null;
         let pendingTimeStr = null;
 
-        // Hàm mở popup xác nhận đẹp mắt
+        // HÃ m má»Ÿ popup xÃ¡c nháº­n Ä‘áº¹p máº¯t
         function requestCheck(actionType, actionName, buttonElement) {
             if (buttonElement.classList.contains('btn-disabled')) return;
             
@@ -362,19 +362,19 @@
             pendingButton = buttonElement;
             pendingTimeStr = timeNow;
 
-            // Cập nhật nội dung Popup
-            document.getElementById('modalMessage').innerHTML = `Ghi nhận <b>${actionName}</b> lúc <b>${timeNow}</b> ?`;
+            // Cáº­p nháº­t ná»™i dung Popup
+            document.getElementById('modalMessage').innerHTML = `Ghi nháº­n <b>${actionName}</b> lÃºc <b>${timeNow}</b> ?`;
             
-            // Hiển thị popup
+            // Hiá»ƒn thá»‹ popup
             const modal = document.getElementById('confirmModal');
             modal.classList.remove('opacity-0', 'pointer-events-none');
             modal.classList.add('modal-active');
         }
 
-        // Hàm đóng popup
-                // Logic Modal Th�nh C�ng
+        // HÃ m Ä‘Ã³ng popup
+                // Logic Modal Thành Công
         function showSuccessModal(actionName, timeStr) {
-            document.getElementById('successMessage').innerHTML = "H? th?ng d� luu l?i gi? <b>" + actionName + "" + "</b><br>v�o l�c <b class='text-green-600 text-lg'>" + timeStr + "" + "</b>.";
+            document.getElementById('successMessage').innerHTML = "Hệ thống đã lưu lại giờ  <b>" + actionName + "" + "</b><br>vào lúc <b class='text-green-600 text-lg'>" + timeStr + "" + "</b>.";
             const modal = document.getElementById('successModal');
             modal.classList.remove('opacity-0', 'pointer-events-none');
             modal.classList.add('modal-active');
@@ -394,23 +394,23 @@
             pendingButton = null;
         }
 
-        // Khi người dùng bấm "Đồng Ý" trên popup
+        // Khi ngÆ°á»i dÃ¹ng báº¥m "Äá»“ng Ã" trÃªn popup
         document.getElementById('btnConfirm').addEventListener('click', async function() {
             if (!pendingButton) return;
             
             const buttonElement = pendingButton;
             const timeNow = pendingTimeStr;
             const actionType = pendingAction;
-            // Dòng chữ của action: VD "VÀO SÁNG"
+            // DÃ²ng chá»¯ cá»§a action: VD "VÃ€O SÃNG"
             const actionName = buttonElement.querySelector('.font-heading').innerText;
 
-            // Khóa tạm nút để tránh bấm 2 lần
+            // KhÃ³a táº¡m nÃºt Ä‘á»ƒ trÃ¡nh báº¥m 2 láº§n
             const oldText = this.innerText;
-            this.innerText = "Đang xử lý...";
+            this.innerText = "Äang xá»­ lÃ½...";
             this.disabled = true;
 
             try {
-                // Gọi API backend
+                // Gá»i API backend
                 const response = await fetch('/api/checkin', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -429,19 +429,19 @@
                     closeModal();
                     setTimeout(() => showSuccessModal(actionName, timeNow), 150);
                 } else {
-                    alert(result.message || "Có lỗi xảy ra khi chấm công.");
+                    alert(result.message || "CÃ³ lá»—i xáº£y ra khi cháº¥m cÃ´ng.");
                 }
             } catch (error) {
-                alert("Lỗi kết nối đến máy chủ.");
+                alert("Lá»—i káº¿t ná»‘i Ä‘áº¿n mÃ¡y chá»§.");
             }
             
             this.innerText = oldText;
             this.disabled = false;
-            // Đóng popup
+            // ÄÃ³ng popup
             closeModal();
         });
 
-        // Hàm thay đổi giao diện nút sang "Đã chấm"
+        // HÃ m thay Ä‘á»•i giao diá»‡n nÃºt sang "ÄÃ£ cháº¥m"
         function disableButton(buttonElement, timeStr) {
             if (!buttonElement) return;
             buttonElement.classList.remove('btn-active');
@@ -455,10 +455,12 @@
             icon.className = 'fa-solid fa-circle-check text-2xl text-green-500';
             
             const statusText = buttonElement.querySelector('.status-text');
-            statusText.innerHTML = `<span class="text-green-600 font-bold">Thành công lúc ${timeStr}</span>`;
+            statusText.innerHTML = `<span class="text-green-600 font-bold">ThÃ nh cÃ´ng lÃºc ${timeStr}</span>`;
         }
     </script>
 </body>
 </html>
+
+
 
 

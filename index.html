@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Chấm Công Vạn Thành</title>
+    <!-- Thêm font chữ từ Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#0d47a1',
+                            dark: '#0a3579',
+                            light: '#e8f0fe',
+                            accent: '#1976d2'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { 
+            background: url('https://www.transparenttextures.com/patterns/cubes.png'), linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px -12px rgba(13, 71, 161, 0.15);
+        }
+
+        /* Đồng hồ vừa vặn */
+        .time-display-block {
+            background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1), 0 10px 30px -10px rgba(13, 71, 161, 0.3);
+        }
+        
+        .time-display-block::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: rotate(45deg);
+        }
+
+        .btn-checkin { 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        
+        .btn-active {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            color: #0d47a1;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        
+        .btn-active:hover {
+            border-color: #0d47a1;
+            background: #f8fafc;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(13, 71, 161, 0.1);
+        }
+        
+        .btn-active:active {
+            transform: scale(0.96);
+        }
+
+        .btn-disabled {
+            background-color: #f1f5f9 !important;
+            border: 2px dashed #cbd5e1 !important;
+            color: #94a3b8 !important;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .title-gradient {
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hiệu ứng mờ nền logo */
+        .blend-logo {
+            mix-blend-mode: multiply;
+        }
+        
+        /* Modal Overlay */
+        .modal-overlay {
+            backdrop-filter: blur(5px);
+            transition: opacity 0.2s ease-out;
+        }
+        .modal-content {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0.95);
+            opacity: 0;
+        }
+        .modal-active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-2 sm:p-4 min-h-screen">
+    
+    <div class="w-full max-w-md glass-panel rounded-[1.5rem] overflow-hidden border border-white/50 relative">
+        
+        <!-- Header Ribbon -->
+        <div class="h-1.5 w-full bg-gradient-to-r from-brand-blue via-brand-accent to-blue-300"></div>
+
+        <div class="p-5 sm:p-6 pb-4">
+            <!-- Khu vực Logo & Tiêu đề -->
+            <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-3 mb-4 border-b border-gray-100 pb-4 bg-gradient-to-r from-blue-100/70 to-white p-3 rounded-xl relative overflow-hidden">
+                <!-- Họa tiết trang trí góc -->
+                <div class="absolute -top-4 -right-4 w-12 h-12 bg-blue-100 rounded-full mix-blend-multiply opacity-50 blur-xl"></div>
+                
+                <img src="logo.png" alt="Logo Vạn Thành" class="h-14 sm:h-16 object-contain blend-logo relative z-10">
+                
+                <div class="text-center sm:text-left relative z-10">
+                    <div class="inline-block bg-blue-100 text-brand-blue text-[9px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-widest mb-1">Phiên bản nội bộ</div>
+                    <h1 class="font-heading font-black text-lg sm:text-xl tracking-tight title-gradient uppercase leading-tight">
+                        Cổng Thông Tin <br class="hidden sm:block"> Nhân Sự
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Lời Chào & Lời Chúc -->
+            <div class="text-center mb-4">
+                <p class="text-gray-500 font-medium text-xs mb-0.5">Xin chào,</p>
+                <h2 class="font-heading font-bold text-xl text-brand-dark mb-1.5" id="userName">Đang tải...</h2>
+                <p class="text-xs text-brand-accent font-medium bg-blue-50/50 py-1 px-3 rounded-full inline-block border border-blue-100">
+                    🌟 Chúc bạn một ngày làm việc tràn đầy năng lượng!
+                </p>
+            </div>
+
+            <!-- ĐỒNG HỒ VỪA VẶN -->
+            <div class="time-display-block rounded-[1rem] py-3.5 px-5 flex items-center justify-between mb-5 relative">
+                <!-- Ngày tháng bên trái -->
+                <div class="text-left">
+                    <div class="text-blue-200 font-medium text-[10px] mb-0.5 uppercase tracking-widest">Hôm nay</div>
+                    <div class="text-white font-bold text-xs tracking-wide" id="currentDate">--/--/----</div>
+                </div>
+                
+                <!-- Giờ phút bên phải -->
+                <div class="font-sans font-semibold text-white text-4xl tracking-normal drop-shadow-md flex items-baseline">
+                    <span id="currentHourMin">00:00</span>
+                    <span class="text-lg text-blue-200 font-medium ml-1.5" id="currentSeconds">00</span>
+                </div>
+            </div>
+
+            <!-- Lưới Nút Bấm -->
+            <div class="grid grid-cols-2 gap-3 mb-5">
+                <!-- Nút Vào Sáng -->
+                <button id="btn_in_morning" onclick="requestCheck('in_morning', 'VÀO SÁNG', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-teal-500 group">
+                    <div class="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center icon-wrapper transition-colors group-hover:bg-teal-100">
+                        <i class="fa-solid fa-mug-hot text-lg text-teal-600"></i>
+                    </div>
+                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-teal-700 mt-1">VÀO SÁNG</span>
+                    <span class="text-[11px] font-medium text-gray-400 status-text">Chưa ghi nhận</span>
+                </button>
+                
+                <!-- Nút Ra Sáng -->
+                <button id="btn_out_morning" onclick="requestCheck('out_morning', 'RA NGHỈ TRƯA', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-amber-500 group">
+                    <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center icon-wrapper transition-colors group-hover:bg-amber-100">
+                        <i class="fa-solid fa-utensils text-lg text-amber-600"></i>
+                    </div>
+                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-amber-700 mt-1">RA NGHỈ TRƯA</span>
+                    <span class="text-[11px] font-medium text-gray-400 status-text">Chưa ghi nhận</span>
+                </button>
+                
+                <!-- Nút Vào Chiều -->
+                <button id="btn_in_afternoon" onclick="requestCheck('in_afternoon', 'VÀO CHIỀU', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-blue-500 group">
+                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center icon-wrapper transition-colors group-hover:bg-blue-100">
+                        <i class="fa-solid fa-sun text-lg text-blue-600"></i>
+                    </div>
+                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-blue-700 mt-1">VÀO CHIỀU</span>
+                    <span class="text-[11px] font-medium text-gray-400 status-text">Chưa ghi nhận</span>
+                </button>
+                
+                <!-- Nút Ra Chiều -->
+                <button id="btn_out_afternoon" onclick="requestCheck('out_afternoon', 'RA VỀ', this)" class="btn-checkin btn-active rounded-[1rem] p-3.5 flex flex-col items-center justify-center gap-1.5 hover:border-rose-500 group">
+                    <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center icon-wrapper transition-colors group-hover:bg-rose-100">
+                        <i class="fa-solid fa-house-chimney-window text-lg text-rose-600"></i>
+                    </div>
+                    <span class="font-heading font-bold text-[13px] tracking-wide text-gray-800 group-hover:text-rose-700 mt-1">RA VỀ</span>
+                    <span class="text-[11px] font-medium text-gray-400 status-text">Chưa ghi nhận</span>
+                </button>
+            </div>
+
+            <!-- Cảnh Báo Wifi -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 flex items-start gap-2 shadow-sm">
+                <div class="text-yellow-600 mt-0.5">
+                    <i class="fa-solid fa-lightbulb text-base animate-pulse"></i>
+                </div>
+                <div>
+                    <h4 class="text-[13px] font-bold text-yellow-800 mb-0.5">Quy định hệ thống</h4>
+                    <p class="text-[11px] text-yellow-700 leading-snug font-medium">
+                        Vui lòng đảm bảo bạn đang sử dụng <b>WIFI của công ty</b>. Hệ thống tự động đối chiếu IP theo thời gian máy chủ.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL XÁC NHẬN ĐẸP MẮT -->
+    <div id="confirmModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none modal-overlay bg-slate-900/40">
+        <div class="modal-content bg-white w-[90%] max-w-sm rounded-[2rem] p-6 shadow-2xl relative overflow-hidden">
+            <!-- Icon trang trí -->
+            <div class="absolute -top-6 -right-6 w-24 h-24 bg-blue-50 rounded-full mix-blend-multiply opacity-50"></div>
+            
+            <div class="flex flex-col items-center text-center mt-2 relative z-10">
+                <div class="w-16 h-16 bg-blue-100 text-brand-blue rounded-full flex items-center justify-center text-3xl mb-4 shadow-inner">
+                    <i class="fa-solid fa-fingerprint"></i>
+                </div>
+                <h3 class="font-heading font-bold text-xl text-gray-800 mb-1">Xác nhận thao tác</h3>
+                <p class="text-gray-500 text-sm mb-6" id="modalMessage">Bạn đang ghi nhận "VÀO SÁNG" lúc 00:00</p>
+                
+                <div class="flex gap-3 w-full">
+                    <button onclick="closeModal()" class="flex-1 py-3 px-4 rounded-xl font-bold text-gray-500 bg-gray-100 hover:bg-gray-200 transition-colors">
+                        Hủy Bỏ
+                    </button>
+                    <button id="btnConfirm" class="flex-1 py-3 px-4 rounded-xl font-bold text-white bg-brand-blue hover:bg-brand-dark shadow-lg shadow-blue-500/30 transition-all active:scale-95">
+                        Đồng Ý
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thêm thư viện Lark SDK -->
+    <script type="text/javascript" src="https://lf1-cdn-tos.bytegoofy.com/goofy/lark/op/h5-js-sdk-1.5.23.js"></script>
+
+    <!-- JS Logic -->
+    <script>
+        // Update Time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentHourMin').textContent = 
+                String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+            
+            document.getElementById('currentSeconds').textContent = String(now.getSeconds()).padStart(2, '0');
+            
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            const dateStr = now.toLocaleDateString('vi-VN', options);
+            document.getElementById('currentDate').textContent = dateStr;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Biến lưu thông tin user thật
+        let currentUser = {
+            id: null,
+            name: 'Đang tải danh tính...'
+        };
+
+        // Hàm Đăng nhập ngầm qua Lark
+        function loginViaLark() {
+            setTimeout(() => {
+                if (typeof tt !== 'undefined') {
+                    tt.requestAuthCode({
+                        appId: 'cli_aaad6f9e06a29ed2',
+                        success(res) {
+                            fetch('/api/login', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ code: res.code })
+                            })
+                            .then(r => r.json())
+                            .then(data => {
+                                if(data.success) {
+                                    currentUser.id = data.user.userId;
+                                    currentUser.name = data.user.name;
+                                    document.getElementById('userName').textContent = currentUser.name;
+
+                                    // Khôi phục trạng thái nút bấm từ Database (Lark Base)
+                                    if (data.attendanceState) {
+                                        const states = data.attendanceState;
+                                        if (states.in_morning) disableButton(document.getElementById('btn_in_morning'), states.in_morning);
+                                        if (states.out_morning) disableButton(document.getElementById('btn_out_morning'), states.out_morning);
+                                        if (states.in_afternoon) disableButton(document.getElementById('btn_in_afternoon'), states.in_afternoon);
+                                        if (states.out_afternoon) disableButton(document.getElementById('btn_out_afternoon'), states.out_afternoon);
+                                    }
+                                } else {
+                                    document.getElementById('userName').textContent = "Lỗi đăng nhập";
+                                    console.error(data);
+                                }
+                            })
+                            .catch((err) => {
+                                document.getElementById('userName').textContent = "Lỗi kết nối máy chủ";
+                                console.error(err);
+                            });
+                        },
+                        fail(err) {
+                            console.error("Lỗi lấy AuthCode:", err);
+                            const errStr = typeof err === 'object' ? JSON.stringify(err) : String(err);
+                            document.getElementById('userName').textContent = "Lỗi: " + errStr;
+                            document.getElementById('userName').style.fontSize = "12px";
+                            document.getElementById('userName').style.color = "red";
+                        }
+                    });
+                } else {
+                    document.getElementById('userName').textContent = "Không tìm thấy thư viện Lark";
+                }
+            }, 500); // Đợi 0.5s để thư viện Lark kịp tải xong
+        }
+        
+        // Gọi hàm khi tải trang
+        loginViaLark();
+
+        // Biến lưu trạng thái hành động đang chờ xác nhận
+        let pendingAction = null;
+        let pendingButton = null;
+        let pendingTimeStr = null;
+
+        // Hàm mở popup xác nhận đẹp mắt
+        function requestCheck(actionType, actionName, buttonElement) {
+            if (buttonElement.classList.contains('btn-disabled')) return;
+            
+            const timeNow = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+            
+            pendingAction = actionType;
+            pendingButton = buttonElement;
+            pendingTimeStr = timeNow;
+
+            // Cập nhật nội dung Popup
+            document.getElementById('modalMessage').innerHTML = `Ghi nhận <b>${actionName}</b> lúc <b>${timeNow}</b> ?`;
+            
+            // Hiển thị popup
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('modal-active');
+        }
+
+        // Hàm đóng popup
+        function closeModal() {
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('modal-active');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            pendingAction = null;
+            pendingButton = null;
+        }
+
+        // Khi người dùng bấm "Đồng Ý" trên popup
+        document.getElementById('btnConfirm').addEventListener('click', async function() {
+            if (!pendingButton) return;
+            
+            const buttonElement = pendingButton;
+            const timeNow = pendingTimeStr;
+            const actionType = pendingAction;
+            // Dòng chữ của action: VD "VÀO SÁNG"
+            const actionName = buttonElement.querySelector('.font-heading').innerText;
+
+            // Khóa tạm nút để tránh bấm 2 lần
+            const oldText = this.innerText;
+            this.innerText = "Đang xử lý...";
+            this.disabled = true;
+
+            try {
+                // Gọi API backend
+                const response = await fetch('/api/checkin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        actionType, 
+                        actionName,
+                        userId: currentUser.id,
+                        userName: currentUser.name
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Đổi giao diện nút thành "Đã chấm"
+                    disableButton(buttonElement, timeNow);
+                } else {
+                    alert(result.message || "Có lỗi xảy ra khi chấm công.");
+                }
+            } catch (error) {
+                alert("Lỗi kết nối đến máy chủ.");
+            }
+            
+            this.innerText = oldText;
+            this.disabled = false;
+            // Đóng popup
+            closeModal();
+        });
+
+        // Hàm thay đổi giao diện nút sang "Đã chấm"
+        function disableButton(buttonElement, timeStr) {
+            if (!buttonElement) return;
+            buttonElement.classList.remove('btn-active');
+            buttonElement.classList.add('btn-disabled');
+            
+            const iconWrapper = buttonElement.querySelector('.icon-wrapper');
+            iconWrapper.classList.remove('bg-teal-50', 'bg-amber-50', 'bg-blue-50', 'bg-rose-50');
+            iconWrapper.classList.add('bg-gray-200');
+
+            const icon = buttonElement.querySelector('i');
+            icon.className = 'fa-solid fa-circle-check text-2xl text-green-500';
+            
+            const statusText = buttonElement.querySelector('.status-text');
+            statusText.innerHTML = `<span class="text-green-600 font-bold">Thành công lúc ${timeStr}</span>`;
+        }
+    </script>
+</body>
+</html>

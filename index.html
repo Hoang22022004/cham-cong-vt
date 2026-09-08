@@ -135,8 +135,8 @@
                     <div class="text-white font-bold text-xs tracking-wide" id="currentDate">--/--/----</div>
                 </div>
                 <div class="text-right flex items-baseline gap-1 relative z-10">
-                    <span class="font-heading font-black text-3xl text-white tracking-tighter" id="currentHourMin">--:--</span>
-                    <span class="text-blue-200 font-bold text-sm tracking-widest" id="currentSeconds">--</span>
+                    <span class="font-sans font-bold text-4xl text-white tracking-tight" id="currentHourMin">--:--</span>
+                    <span class="text-blue-200 font-semibold text-base tracking-wide" id="currentSeconds">--</span>
                 </div>
             </div>
 
@@ -258,7 +258,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const branchParam = urlParams.get('branch') || 'vt1';
         const APP_IDS = {
-            vt1: 'cli_aaad6f9e06a29ed2',
+            vt1: 'cli_aa152c3577f89ed2',
             vt2: 'cli_aa15c91481f8ded3'
         };
         const CURRENT_APP_ID = APP_IDS[branchParam] || APP_IDS['vt1'];

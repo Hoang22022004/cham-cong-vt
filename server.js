@@ -12,7 +12,7 @@ const COMPANY_IPS = ['118.69.234.214'];
 // --- Cấu hình Lark API ---
 const APPS = {
     vt1: { 
-        APP_ID: 'cli_aaad6f9e06a29ed2', APP_SECRET: '7r72kPZ7Dilw1aelU2lzBb1PxrwPTyoz',
+        APP_ID: 'cli_aa152c3577f89ed2', APP_SECRET: 'yLLt8QytIBTvfOIEd6Ut0d3PPUQlNdZ6',
         BASE_TOKEN: 'BubDbp3p7a5IwAsTURZlMsLGgTg', TABLE_ID: 'tblmYtoNX1lMQLZH'
     },
     vt2: { 
@@ -191,6 +191,8 @@ app.post('/api/checkin', async (req, res) => {
                     "Ghi chú": todayRecord.fields['Ghi chú'] ? todayRecord.fields['Ghi chú'] + `\nĐã gửi ${actionName} (${cName})` : `Đã gửi ${actionName} (${cName})`
                 }
             };
+            
+            console.log("PUT payload:", JSON.stringify(updateData, null, 2));
 
             larkRes = await fetch(`https://open.larksuite.com/open-apis/bitable/v1/apps/${configVT1.BASE_TOKEN}/tables/${configVT1.TABLE_ID}/records/${todayRecord.record_id}?user_id_type=open_id`, {
                 method: 'PUT',
@@ -210,6 +212,8 @@ app.post('/api/checkin', async (req, res) => {
                     "Ghi chú": `Đã gửi ${actionName} qua Web App (${cName})`
                 }
             };
+            
+            console.log("POST payload:", JSON.stringify(recordData, null, 2));
 
             larkRes = await fetch(`https://open.larksuite.com/open-apis/bitable/v1/apps/${configVT1.BASE_TOKEN}/tables/${configVT1.TABLE_ID}/records?user_id_type=open_id`, {
                 method: 'POST',

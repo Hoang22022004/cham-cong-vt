@@ -17,7 +17,7 @@ const APPS = {
     },
     vt2: { 
         APP_ID: 'cli_aa15c91481f8ded3', APP_SECRET: 'mMcAbt5qYRnFYTn7ikzqufxKjptAOQYk',
-        BASE_TOKEN: 'EyXHbFsZwa51FssRSsclySoxgah', TABLE_ID: 'tblYZwCFUVDOBajD'
+        BASE_TOKEN: 'EyXHbFsZwa51FssRSsclySoxgah', TABLE_ID: 'tblehxxRQJS1vj1Q'
     }
 };
 

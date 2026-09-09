@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname));
 
-const COMPANY_IPS = ['118.69.234.214']; 
+const COMPANY_IPS = ['118.69.234.214', '42.114.20.70'];
 
 // --- Cấu hình Lark API ---
 const APPS = {
